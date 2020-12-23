@@ -1,0 +1,8 @@
+setup nginx
+setup ftps
+setup mysql
+setup wordpress
+setup phpmyadmin
+setup influxdb
+setup telegraf
+test my balls off
