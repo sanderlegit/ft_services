@@ -48,3 +48,4 @@ eval $(minikube docker-env)
 export MINIKUBE_IP=$(minikube ip)
 
 kubectl apply -f ./srcs/MetalLB/config.yaml
+#kubectl apply -f ./srcs/read_service_permissions.yml
