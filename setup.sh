@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # ---------- Colors ---------- #
 RED=$'\e[1;31m'
 GREEN=$'\e[1;32m'
@@ -9,7 +10,7 @@ CYAN=$'\e[1;36m'
 END=$'\e[0m'
 
 # ---------- Modular function for starting apps ---------- #
-# $1 = name, $2 = docker-location, $3 = yml-location
+# $1 = name, $2 = docker-location, $3 = yaml-location
 start_app () {
 	printf "$1: "
 	if [ "$4" == "--debug" ]
@@ -25,6 +26,7 @@ start_app () {
 	else
 		echo "[${GREEN}OK${END}]"
 	fi
+}
 
 # ---------- Setting debug ---------- #
 DEBUG=$""
@@ -41,11 +43,26 @@ fi
 :> errlog.txt
 
 # ---------- Cluster start ---------- #
-minikube start
+minikube start --driver=docker \
+				--cpus=6 --memory=3900 --disk-size=10g \
+				--addons=metallb \
+				--extra-config=kubelet.authentication-token-webhook=true
+				#--addons=default-storageclass \
+				#--addons=dashboard \
+				#--addons=storage-provisioner \
+				#--addons=metrics-server \
 
 # ---------- Build and deploy ---------- #
 eval $(minikube docker-env)
 export MINIKUBE_IP=$(minikube ip)
 
-kubectl apply -f ./srcs/MetalLB/config.yaml
-#kubectl apply -f ./srcs/read_service_permissions.yml
+kubectl apply -f ./srcs/metallb/config.yaml
+#kubectl apply -f ./srcs/read_service_permissions.yaml
+start_app "nginx" "./srcs/nginx" "./srcs/nginx/nginx.yaml" $DEBUG
+#start_app "ftps" "./srcs/ftps" "./srcs/ftps/ftps.yaml" $DEBUG
+#start_app "mysql" "./srcs/mysql" "./srcs/mysql/mysql.yaml" $DEBUG
+#start_app "wordpress" "./srcs/wordpress" "./srcs/wordpress/wordpress.yaml" $DEBUG
+#start_app "phpmyadmin" "./srcs/phpmyadmin" "./srcs/phpmyadmin/phpmyadmin.yaml" "$DEBUG"
+#start_app "influxdb" "./srcs/influxdb" "./srcs/influxdb/influxdb.yaml" "$DEBUG"
+#start_app "telegraf" "./srcs/telegraf" "./srcs/telegraf/telegraf.yaml" "$DEBUG"
+#start_app "grafana" "./srcs/grafana" "./srcs/grafana/grafana.yaml" "$DEBUG"
