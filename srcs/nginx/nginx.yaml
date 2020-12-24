@@ -53,14 +53,14 @@ spec:
         - secretRef:
             name: ssh-secret
         resources: {}
-        #livenessProbe:
-          #exec:
-            #command:
-            #- sh
-            #- -c
-            #- /tmp/liveness.sh
-          #initialDelaySeconds: 10
-          #periodSeconds: 5
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - /tmp/liveness.sh
+          initialDelaySeconds: 10
+          periodSeconds: 5
 status: {}
 
 ---
