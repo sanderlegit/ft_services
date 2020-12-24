@@ -55,14 +55,15 @@ minikube start --driver=docker \
 # ---------- Build and deploy ---------- #
 eval $(minikube docker-env)
 export MINIKUBE_IP=$(minikube ip)
+PROJECT_DIR="$(dirname $(realpath $0))"
 
-kubectl apply -f ./srcs/metallb/config.yaml
-#kubectl apply -f ./srcs/read_service_permissions.yaml
-start_app "nginx" "./srcs/nginx" "./srcs/nginx/nginx.yaml" $DEBUG
-#start_app "ftps" "./srcs/ftps" "./srcs/ftps/ftps.yaml" $DEBUG
-#start_app "mysql" "./srcs/mysql" "./srcs/mysql/mysql.yaml" $DEBUG
-#start_app "wordpress" "./srcs/wordpress" "./srcs/wordpress/wordpress.yaml" $DEBUG
-#start_app "phpmyadmin" "./srcs/phpmyadmin" "./srcs/phpmyadmin/phpmyadmin.yaml" "$DEBUG"
-#start_app "influxdb" "./srcs/influxdb" "./srcs/influxdb/influxdb.yaml" "$DEBUG"
-#start_app "telegraf" "./srcs/telegraf" "./srcs/telegraf/telegraf.yaml" "$DEBUG"
-#start_app "grafana" "./srcs/grafana" "./srcs/grafana/grafana.yaml" "$DEBUG"
+kubectl apply -f $PROJECT_DIR/srcs/metallb/config.yaml
+#kubectl apply -f $PROJECT_DIR/srcs/read_service_permissions.yaml
+start_app "nginx" "$PROJECT_DIR/srcs/nginx" "$PROJECT_DIR/srcs/nginx/nginx.yaml" $DEBUG
+#start_app "ftps" "$PROJECT_DIR/srcs/ftps" "$PROJECT_DIR/srcs/ftps/ftps.yaml" $DEBUG
+#start_app "mysql" "$PROJECT_DIR/srcs/mysql" "$PROJECT_DIR/srcs/mysql/mysql.yaml" $DEBUG
+#start_app "wordpress" "$PROJECT_DIR/srcs/wordpress" "$PROJECT_DIR/srcs/wordpress/wordpress.yaml" $DEBUG
+#start_app "phpmyadmin" "$PROJECT_DIR/srcs/phpmyadmin" "$PROJECT_DIR/srcs/phpmyadmin/phpmyadmin.yaml" "$DEBUG"
+#start_app "influxdb" "$PROJECT_DIR/srcs/influxdb" "$PROJECT_DIR/srcs/influxdb/influxdb.yaml" "$DEBUG"
+#start_app "telegraf" "$PROJECT_DIR/srcs/telegraf" "$PROJECT_DIR/srcs/telegraf/telegraf.yaml" "$DEBUG"
+#start_app "grafana" "$PROJECT_DIR/srcs/grafana" "$PROJECT_DIR/srcs/grafana/grafana.yaml" "$DEBUG"
