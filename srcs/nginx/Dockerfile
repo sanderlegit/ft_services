@@ -1,7 +1,6 @@
 #container OS
 FROM alpine:3.12
 
-
 #installing packages
 RUN apk update --no-cache && \
 	apk upgrade --no-cache && \
@@ -20,8 +19,10 @@ RUN adduser -D -g 'www' www && \
 #generate host keys
 RUN ssh-keygen -A
 
-#nginx Conf
-COPY srcs/nginx.conf /etc/nginx/conf.d/default.conf
+#nginx conf
+COPY srcs/default.conf /etc/nginx/conf.d/default.conf
+COPY srcs/nginx.conf /etc/nginx/nginx.conf
+
 #index page
 COPY srcs/index.html /www/index.html
 
