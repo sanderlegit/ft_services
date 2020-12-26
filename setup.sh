@@ -57,8 +57,12 @@ eval $(minikube docker-env)
 export MINIKUBE_IP=$(minikube ip)
 PROJECT_DIR="$(dirname $(realpath $0))"
 
+
+bash $PROJECT_DIR/srcs/metallb/set-kube-proxy-config.sh
+#kubectl apply -f $PROJECT_DIR/srcs/metallb/namespace.yaml
+#kubectl apply -f $PROJECT_DIR/srcs/metallb/metallb.yaml
 kubectl apply -f $PROJECT_DIR/srcs/metallb/config.yaml
-#kubectl apply -f $PROJECT_DIR/srcs/read_service_permissions.yaml
+kubectl apply -f $PROJECT_DIR/srcs/read_service_permissions.yaml
 start_app "nginx" "$PROJECT_DIR/srcs/nginx" "$PROJECT_DIR/srcs/nginx/nginx.yaml" $DEBUG
 #start_app "ftps" "$PROJECT_DIR/srcs/ftps" "$PROJECT_DIR/srcs/ftps/ftps.yaml" $DEBUG
 #start_app "mysql" "$PROJECT_DIR/srcs/mysql" "$PROJECT_DIR/srcs/mysql/mysql.yaml" $DEBUG
