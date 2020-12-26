@@ -61,6 +61,7 @@ PROJECT_DIR="$(dirname $(realpath $0))"
 bash $PROJECT_DIR/srcs/metallb/set-kube-proxy-config.sh
 #kubectl apply -f $PROJECT_DIR/srcs/metallb/namespace.yaml
 #kubectl apply -f $PROJECT_DIR/srcs/metallb/metallb.yaml
+kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
 kubectl apply -f $PROJECT_DIR/srcs/metallb/config.yaml
 kubectl apply -f $PROJECT_DIR/srcs/read_service_permissions.yaml
 start_app "nginx" "$PROJECT_DIR/srcs/nginx" "$PROJECT_DIR/srcs/nginx/nginx.yaml" $DEBUG
