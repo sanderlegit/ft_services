@@ -62,7 +62,7 @@ bash $PROJECT_DIR/srcs/metallb/set-kube-proxy-config.sh
 #kubectl apply -f $PROJECT_DIR/srcs/metallb/namespace.yaml
 #kubectl apply -f $PROJECT_DIR/srcs/metallb/metallb.yaml
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
-kubectl apply -f $PROJECT_DIR/srcs/metallb/config.yaml
+cat $PROJECT_DIR/srcs/metallb/config.yaml | sed -e "s=IPHERE=$(minikube ip)-$(minikube ip | sed -En 's=(([0-9]+\.){3})[0-9]+=\1255=p')=" | kubectl apply -f -
 kubectl apply -f $PROJECT_DIR/srcs/read_service_permissions.yaml
 start_app "nginx" "$PROJECT_DIR/srcs/nginx" "$PROJECT_DIR/srcs/nginx/nginx.yaml" $DEBUG
 #start_app "ftps" "$PROJECT_DIR/srcs/ftps" "$PROJECT_DIR/srcs/ftps/ftps.yaml" $DEBUG
