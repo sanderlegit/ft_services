@@ -16,7 +16,7 @@ COPY ./srcs/my.cnf /tmp/
 COPY ./srcs/create_tables.sql /tmp/
 
 #scripts and permissions
-COPY ./srcs/*.sh /tmp/*.sh
+COPY ./srcs/setup.sh /tmp/
 RUN chmod +x /tmp/*.sh
 
 VOLUME /var/lib/mysql
