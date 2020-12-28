@@ -70,10 +70,10 @@ PROJECT_DIR="$(dirname $(realpath $0))"
 
 cat $PROJECT_DIR/srcs/metallb/config.yaml | sed -e "s=IPHERE=$(minikube ip)-$(minikube ip | sed -En 's=(([0-9]+\.){3})[0-9]+=\1255=p')=" | kubectl apply -f -
 kubectl apply -f $PROJECT_DIR/srcs/read_service_permissions.yaml
-start_app "nginx" "/srcs/nginx" "/srcs/nginx/nginx.yaml" $DEBUG
 #start_app "ftps" "/srcs/ftps" "/srcs/ftps/ftps.yaml" $DEBUG
-#start_app "mysql" "/srcs/mysql" "/srcs/mysql/mysql.yaml" $DEBUG
+start_app "mysql" "/srcs/mysql" "/srcs/mysql/mysql.yaml" $DEBUG
 start_app "wordpress" "/srcs/wordpress" "/srcs/wordpress/wordpress.yaml" $DEBUG
+start_app "nginx" "/srcs/nginx" "/srcs/nginx/nginx.yaml" $DEBUG
 #start_app "phpmyadmin" "/srcs/phpmyadmin" "/srcs/phpmyadmin/phpmyadmin.yaml" "$DEBUG"
 #start_app "influxdb" "/srcs/influxdb" "/srcs/influxdb/influxdb.yaml" "$DEBUG"
 #start_app "telegraf" "/srcs/telegraf" "/srcs/telegraf/telegraf.yaml" "$DEBUG"
