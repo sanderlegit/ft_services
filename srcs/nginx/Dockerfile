@@ -12,8 +12,12 @@ RUN apk update --no-cache && \
 #create directory for html files and give permissions to nginx
 RUN adduser -D -g 'www' www && \
 	mkdir /www && \
-	chown -R www:www /var/lib/nginx && \
 	chown -R www:www /www && \
+	chown -R www:www /var/lib/nginx && \
+	#chmod -R 755 /var/log/nginx && \
+	mkdir /run/nginx && \
+	chown -R www:www /run/nginx && \
+	#chmod -R 755 /run/nginx/&& \
 	mkdir -p /var/run/nginx
 
 #generate host keys
