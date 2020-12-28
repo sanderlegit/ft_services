@@ -47,4 +47,4 @@ RUN sed -i 's/;daemonize = yes/daemonize = no/g' /etc/php7/php-fpm.conf
 EXPOSE 5050
 
 #Add SSH user and configuer supervisord
-CMD ["sh", "-c", "/tmp/setup.sh ; /usr/bin/supervisord -c /etc/supervisord.conf"]
+CMD ["sh", "-c", "sh /tmp/setup.sh; /usr/bin/supervisord -c /etc/supervisord.conf"]
