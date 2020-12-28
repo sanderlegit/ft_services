@@ -9,15 +9,19 @@ MAGENTA=$'\e[1;35m'
 CYAN=$'\e[1;36m'
 END=$'\e[0m'
 
-# ---------- Modular function for starting apps ---------- #
+# ---------- Functions ---------- #
+print_ip() {
+	echo -n "http://" ; kubectl get svc | grep "$1" | awk '{printf "%s",$4}' ; echo -n ":" ; kubectl get svc | grep "$1" | awk '{print $5}' | cut -d ':' -f 1
+}
+
 # $1 = name, $2 = docker-location, $3 = yaml-location
 start_app () {
 	printf "$1: "
 	if [ "$4" == "--debug" ]
 	then
-		docker build -t $1 $2 && kubectl apply -f $3
+		docker build -t $1 $PROJECT_DIR$2 && kubectl apply -f $PROJECT_DIR$3
 	else
-		docker build -t $1 $2 > /dev/null 2>>errlog.txt && kubectl apply -f $3 > /dev/null 2>>errlog.txt
+		docker build -t $1 $PROJECT_DIR$2 > /dev/null 2>>errlog.txt && kubectl apply -f $PROJECT_DIR$3 > /dev/null 2>>errlog.txt
 	fi
     RET=$?
 	if [ $RET -eq 1 ]
@@ -28,7 +32,7 @@ start_app () {
 	fi
 }
 
-# ---------- Setting debug ---------- #
+# ---------- Debug ---------- #
 DEBUG=$""
 if [ $# -eq 1 ]
 then
@@ -46,29 +50,37 @@ fi
 minikube start --driver=docker \
 				--cpus=6 --memory=3900 --disk-size=10g \
 				--addons=metallb \
+				--addons=default-storageclass \
+				--addons=dashboard \
+				--addons=storage-provisioner \
+				--addons=metrics-server \
 				--extra-config=kubelet.authentication-token-webhook=true
-				#--addons=default-storageclass \
-				#--addons=dashboard \
-				#--addons=storage-provisioner \
-				#--addons=metrics-server \
+
+# ---------- Install ---------- #
+# metallb
+#bash $PROJECT_DIR/srcs/metallb/set-kube-proxy-config.sh
+#kubectl apply -f $PROJECT_DIR/srcs/metallb/namespace.yaml
+#kubectl apply -f $PROJECT_DIR/srcs/metallb/metallb.yaml
+#kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
 
 # ---------- Build and deploy ---------- #
 eval $(minikube docker-env)
 export MINIKUBE_IP=$(minikube ip)
 PROJECT_DIR="$(dirname $(realpath $0))"
 
-
-bash $PROJECT_DIR/srcs/metallb/set-kube-proxy-config.sh
-#kubectl apply -f $PROJECT_DIR/srcs/metallb/namespace.yaml
-#kubectl apply -f $PROJECT_DIR/srcs/metallb/metallb.yaml
-kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
 cat $PROJECT_DIR/srcs/metallb/config.yaml | sed -e "s=IPHERE=$(minikube ip)-$(minikube ip | sed -En 's=(([0-9]+\.){3})[0-9]+=\1255=p')=" | kubectl apply -f -
 kubectl apply -f $PROJECT_DIR/srcs/read_service_permissions.yaml
-start_app "nginx" "$PROJECT_DIR/srcs/nginx" "$PROJECT_DIR/srcs/nginx/nginx.yaml" $DEBUG
-#start_app "ftps" "$PROJECT_DIR/srcs/ftps" "$PROJECT_DIR/srcs/ftps/ftps.yaml" $DEBUG
-#start_app "mysql" "$PROJECT_DIR/srcs/mysql" "$PROJECT_DIR/srcs/mysql/mysql.yaml" $DEBUG
-#start_app "wordpress" "$PROJECT_DIR/srcs/wordpress" "$PROJECT_DIR/srcs/wordpress/wordpress.yaml" $DEBUG
-#start_app "phpmyadmin" "$PROJECT_DIR/srcs/phpmyadmin" "$PROJECT_DIR/srcs/phpmyadmin/phpmyadmin.yaml" "$DEBUG"
-#start_app "influxdb" "$PROJECT_DIR/srcs/influxdb" "$PROJECT_DIR/srcs/influxdb/influxdb.yaml" "$DEBUG"
-#start_app "telegraf" "$PROJECT_DIR/srcs/telegraf" "$PROJECT_DIR/srcs/telegraf/telegraf.yaml" "$DEBUG"
-#start_app "grafana" "$PROJECT_DIR/srcs/grafana" "$PROJECT_DIR/srcs/grafana/grafana.yaml" "$DEBUG"
+start_app "nginx" "/srcs/nginx" "/srcs/nginx/nginx.yaml" $DEBUG
+#start_app "ftps" "/srcs/ftps" "/srcs/ftps/ftps.yaml" $DEBUG
+#start_app "mysql" "/srcs/mysql" "/srcs/mysql/mysql.yaml" $DEBUG
+start_app "wordpress" "/srcs/wordpress" "/srcs/wordpress/wordpress.yaml" $DEBUG
+#start_app "phpmyadmin" "/srcs/phpmyadmin" "/srcs/phpmyadmin/phpmyadmin.yaml" "$DEBUG"
+#start_app "influxdb" "/srcs/influxdb" "/srcs/influxdb/influxdb.yaml" "$DEBUG"
+#start_app "telegraf" "/srcs/telegraf" "/srcs/telegraf/telegraf.yaml" "$DEBUG"
+#start_app "grafana" "/srcs/grafana" "/srcs/grafana/grafana.yaml" "$DEBUG"
+
+echo ""
+print_ip "nginx-svc"
+#print_ip "wordpress-svc"
+#print_ip "phpmyadmin-svc"
+#print_ip "grafana-svc"
