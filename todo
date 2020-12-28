@@ -4,11 +4,13 @@ nginx
 	2020/12/25 13:18:08 [emerg] 500#500: open() "/run/nginx/nginx.pid" failed (13: Permission denied)
 	nginx: configuration file /etc/nginx/nginx.conf test failed
 
-	Try rewriting the nginx conf to include www user isntead of nginx a
-
 setup wordpress
-setup ftps
+	403 forbidden on access
+
 setup mysql
+	  Warning  FailedScheduling  63s (x2 over 63s)  default-scheduler  persistentvolumeclaim "mysql-pv-claim" not found
+
+setup ftps
 setup phpmyadmin
 setup influxdb
 setup telegraf

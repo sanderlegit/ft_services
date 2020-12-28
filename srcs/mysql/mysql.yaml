@@ -76,7 +76,6 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: "/mnt/mysql-data"
-    type: DirectoryOrCreate
 
 ---
 

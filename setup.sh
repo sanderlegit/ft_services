@@ -81,6 +81,6 @@ start_app "nginx" "/srcs/nginx" "/srcs/nginx/nginx.yaml" $DEBUG
 
 echo ""
 print_ip "nginx-svc"
-#print_ip "wordpress-svc"
+print_ip "wordpress-svc"
 #print_ip "phpmyadmin-svc"
 #print_ip "grafana-svc"
