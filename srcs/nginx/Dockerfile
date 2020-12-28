@@ -5,23 +5,27 @@ FROM alpine:3.12
 RUN apk update --no-cache && \
 	apk upgrade --no-cache && \
 	apk add --no-cache nginx \
+	jq \
+	curl \
+	gettext \
 	openssh \
 	supervisor
 
-#create user www and group 'www'
-#create directory for html files and give permissions to nginx
+#create user www and group 'www', create directory for html files 
 RUN adduser -D -g 'www' www && \
 	mkdir /www && \
-	chown -R www:www /www && \
-	chown -R www:www /var/lib/nginx && \
 	mkdir -p /var/run/nginx
+
+#and give permissions to nginx
+RUN chown -R www:www /www && \
+	chown -R www:www /var/lib/nginx
 
 #generate host keys
 RUN ssh-keygen -A
 
 #nginx conf
 COPY srcs/default.conf /etc/nginx/conf.d/default.conf
-COPY srcs/nginx.conf /etc/nginx/nginx.conf
+#COPY srcs/nginx.conf /etc/nginx/nginx.conf
 
 #index page
 COPY srcs/index.html /www/index.html
@@ -30,7 +34,7 @@ COPY srcs/index.html /www/index.html
 COPY srcs/localhost.cert /etc/ssl/localhost.cert
 COPY srcs/localhost.key /etc/ssl/localhost.key
 
-#SSH config
+#supervisor config
 COPY srcs/supervisord.conf /etc/supervisord.conf
 
 #scripts and permissions
