@@ -5,10 +5,10 @@ nginx
 	nginx: configuration file /etc/nginx/nginx.conf test failed
 
 setup wordpress
-	403 forbidden on access
+	cache all the downloads for install to speed everything up a little
+	also its crashing lol but does work if you dont auto run setup and do it manually from exec -it -- sh
 
 setup mysql
-	  Warning  FailedScheduling  63s (x2 over 63s)  default-scheduler  persistentvolumeclaim "mysql-pv-claim" not found
 
 setup ftps
 setup phpmyadmin
