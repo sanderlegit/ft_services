@@ -1,19 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  #creationTimestamp: null
-  #labels:
-    #app: nginx
   name: nginx
 spec:
-  #replicas: 1
   selector:
     matchLabels:
       app: nginx
-  #strategy: {}
   template:
     metadata:
-      #creationTimestamp: null
       labels:
         app: nginx
     spec:
@@ -31,7 +25,6 @@ spec:
         envFrom:
         - secretRef:
             name: ssh-secret
-        #resources: {}
         livenessProbe:
           exec:
             command:
@@ -40,16 +33,12 @@ spec:
             - /tmp/liveness.sh
           initialDelaySeconds: 10
           periodSeconds: 5
-#status: {}
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  #creationTimestamp: null
-  #labels:
-    #app: nginx
   name: nginx-svc
 spec:
   ports:
@@ -65,8 +54,6 @@ spec:
   selector:
     app: nginx
   type: LoadBalancer
-#status:
-  #loadBalancer: {}
 
 ---
 
