@@ -4,14 +4,12 @@ nginx
 	2020/12/25 13:18:08 [emerg] 500#500: open() "/run/nginx/nginx.pid" failed (13: Permission denied)
 	nginx: configuration file /etc/nginx/nginx.conf test failed
 
-setup wordpress
-	cache all the downloads for install to speed everything up a little
-	also its crashing lol but does work if you dont auto run setup and do it manually from exec -it -- sh
-
-setup mysql
-
+wordpress
+mysql
 setup ftps
 setup phpmyadmin
+	SSL
+		http://192.168.49.4:5000/doc/html/setup.html#ssl
 setup influxdb
 setup telegraf
 test my balls off

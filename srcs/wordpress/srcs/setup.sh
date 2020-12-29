@@ -1,7 +1,6 @@
 #!/bin/bash
-# find external IP
+# configure for DB
 . /tmp/get_external_ip.sh WPSVC_IP wordpress-svc
-# set enviroment supplied by .yaml secrets for wp-config.php, remove template
 envsubst '${WPSVC_IP} ${DB_NAME} ${DB_USER} ${DB_PASSWORD} ${DB_HOST}' < /tmp/wp-config.php > /www/wp-config.php
 rm /tmp/wp-config.php
 # set permissions for wp-cli, add to path
