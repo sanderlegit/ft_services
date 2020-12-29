@@ -1,15 +1,4 @@
-nginx
-	2020/12/25 13:18:08 [warn] 500#500: the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /etc/nginx/nginx.conf:3
-	nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-	2020/12/25 13:18:08 [emerg] 500#500: open() "/run/nginx/nginx.pid" failed (13: Permission denied)
-	nginx: configuration file /etc/nginx/nginx.conf test failed
-
-wordpress
-mysql
 setup ftps
-setup phpmyadmin
-	SSL
-		http://192.168.49.4:5000/doc/html/setup.html#ssl
 setup influxdb
 setup telegraf
 test my balls off
