@@ -1,7 +1,6 @@
 #container OS
 FROM alpine:3.12
 
-
 #installing packages
 RUN apk update --no-cache && \
 	apk upgrade --no-cache && \

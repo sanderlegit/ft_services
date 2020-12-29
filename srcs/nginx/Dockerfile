@@ -24,11 +24,10 @@ RUN chown -R www:www /www && \
 RUN ssh-keygen -A
 
 #nginx conf
-COPY srcs/default.conf /etc/nginx/conf.d/default.conf
-#COPY srcs/nginx.conf /etc/nginx/nginx.conf
+COPY srcs/default.conf /tmp/default.conf
 
 #index page
-COPY srcs/index.html /www/index.html
+COPY srcs/index.html /tmp/index.html
 
 #SSL certs
 COPY srcs/localhost.cert /etc/ssl/localhost.cert
