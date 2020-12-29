@@ -1,7 +1,6 @@
 #container OS
 FROM alpine:3.12
 
-RUN mkdir -p /run/nginx
 
 #installing packages
 RUN apk update --no-cache && \
@@ -20,8 +19,11 @@ RUN apk update --no-cache && \
 		supervisor
 
 #create user www and group 'www', create neccessary directories 
-RUN adduser -D -g 'www' www
-RUN	mkdir /www
+RUN adduser -D -g 'www' www && \
+	mkdir /www && \
+	mkdir -p /run/nginx && \
+	chown -R www:www /var/lib/nginx && \
+	chown -R www:www /www
 
 #nginx conf
 COPY srcs/nginx.conf /etc/nginx/nginx.conf
@@ -29,11 +31,11 @@ COPY srcs/nginx.conf /etc/nginx/nginx.conf
 #supervisord conf
 COPY ./srcs/supervisord.conf /etc/supervisord.conf
 
-#wp config
+#wp config, installer, permissions
 COPY ./srcs/wp-config.php /tmp/wp-config.php
+COPY ./srcs/wp-cli.phar /tmp/wp-cli.phar
 
 #scripts and permissions
-#COPY ./srcs/*.sh /tmp/
 COPY ./srcs/get_external_ip.sh /tmp/
 COPY ./srcs/setup.sh /tmp/
 COPY ./srcs/wpinstall.sh /tmp/
