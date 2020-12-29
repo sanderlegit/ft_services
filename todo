@@ -1,4 +1,6 @@
-reverse proxy phpmyadmin
+/wordpress 307 to wordpress
+nginx_ip/phpmyadmin reverse proxy phpmyadmin
+single ip?
 setup ftps
 setup influxdb
 setup telegraf
