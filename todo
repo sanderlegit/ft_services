@@ -1,12 +1,8 @@
-nginx_ip/phpmyadmin reverse proxy phpmyadmin
-	During login:
-		 Failed to set session cookie. Maybe you are using HTTP instead of HTTPS to access phpMyAdmin.
-	Also the login form only shows if i manually add
-		style='display: inline'
-
-persistentvolumeclaim "mysql-claim" not found
-
 single ip?
+
+wordpress not accessable
+
+mysql not storing
 
 setup ftps
 setup influxdb
