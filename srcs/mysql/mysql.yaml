@@ -1,3 +1,40 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-data
+  labels:
+    app: mysql
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/mysql-data"
+    type: DirectoryOrCreate
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-claim
+  labels:
+    app: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,11 +64,8 @@ spec:
           mountPath: /var/lib/mysql
       volumes:
       - name: mysql-persistent-storage
-        hostPath:
-          path: /home/dries/ft_services_persistent
-          type: DirectoryOrCreate
-        #persistentVolumeClaim:
-          #claimName: mysql-claim
+        persistentVolumeClaim:
+          claimName: mysql-claim
 
 ---
 
@@ -62,39 +96,3 @@ stringData:
   DB_PASSWORD: pass
   DB_HOST: mysql-svc
   MYSQL_HOME: /etc/
-
-#---
-
-#apiVersion: v1
-#kind: PersistentVolume
-#metadata:
-  #name: mysql-data
-  #labels:
-    #app: mysql
-#spec:
-  #storageClassName: manual
-  #capacity:
-    #storage: 1Gi
-  #accessModes:
-    #- ReadWriteOnce
-  #hostPath:
-    #path: "/mnt/mysql-data"
-
-#---
-
-#apiVersion: v1
-#kind: PersistentVolumeClaim
-#metadata:
-  #name: mysql-claim
-  #labels:
-    #app: mysql
-#spec:
-  #selector:
-    #matchLabels:
-      #app: mysql
-  #storageClassName: manual
-  #accessModes:
-    #- ReadWriteOnce
-  #resources:
-    #requests:
-      #storage: 1Gi
