@@ -14,6 +14,10 @@ print_ip() {
 	echo -n "http://" ; kubectl get svc | grep "$1" | awk '{printf "%s",$4}' ; echo -n ":" ; kubectl get svc | grep "$1" | awk '{print $5}' | cut -d ':' -f 1
 }
 
+print_ip_page() {
+	echo -n "http://" ; kubectl get svc | grep "$1" | awk '{printf "%s",$4}' ; echo -n ":" ; echo -n $(kubectl get svc | grep "$1" | awk '{printf "%s",$5}' | cut -d ':' -f 1 ) ; echo $2
+}
+
 # $1 = name, $2 = docker-location, $3 = yaml-location
 start_app () {
 	printf "$1: "
@@ -81,6 +85,8 @@ start_app "nginx" "/srcs/nginx" "/srcs/nginx/nginx.yaml" $DEBUG
 
 echo ""
 print_ip "nginx-svc"
+print_ip_page "nginx-svc" '/wordpress'
+print_ip_page "nginx-svc" '/phpmyadmin'
 print_ip "wordpress-svc"
 print_ip "phpmyadmin-svc"
 #print_ip "grafana-svc"
