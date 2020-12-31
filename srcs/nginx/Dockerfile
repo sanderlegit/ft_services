@@ -44,4 +44,4 @@ RUN chmod +x /tmp/*.sh
 EXPOSE 80 443 22
 
 #Add SSH user and configuer supervisord
-CMD ["sh", "-c", "/tmp/setup.sh ; /usr/bin/supervisord -c /etc/supervisord.conf"]
+CMD ["sh", "-c", "sh /tmp/setup.sh ; /usr/bin/supervisord -c /etc/supervisord.conf"]
