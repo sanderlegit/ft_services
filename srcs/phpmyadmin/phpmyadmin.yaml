@@ -40,7 +40,7 @@ kind: Service
 metadata:
   name: phpmyadmin-svc
   annotations:
-    metallb.universe.tf/address-pool: default
+    metallb.universe.tf/allow-shared-ip: IPHERE
   labels:
     app: phpmyadmin
 spec:
