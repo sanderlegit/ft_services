@@ -78,7 +78,7 @@ PROJECT_DIR="$(dirname $(realpath $0))"
 
 cat $PROJECT_DIR/srcs/metallb/config.yaml | sed -e "s=IPHERE=$(minikube ip)-$(minikube ip)=" | kubectl apply -f -
 kubectl apply -f $PROJECT_DIR/srcs/read_service_permissions.yaml
-#start_app "ftps" "/srcs/ftps" "/srcs/ftps/ftps.yaml" $DEBUG
+start_app_ip "ftps" "/srcs/ftps" "/srcs/ftps/ftps.yaml" $DEBUG
 start_app "mysql" "/srcs/mysql" "/srcs/mysql/mysql.yaml" $DEBUG
 start_app_ip "wordpress" "/srcs/wordpress" "/srcs/wordpress/wordpress.yaml" $DEBUG
 start_app_ip "phpmyadmin" "/srcs/phpmyadmin" "/srcs/phpmyadmin/phpmyadmin.yaml" "$DEBUG"

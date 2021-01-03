@@ -1,4 +1,4 @@
-#container os
+#container OS
 FROM alpine:3.12
 
 #packages

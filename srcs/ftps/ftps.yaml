@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ftps-secret
+type: Opaque
+stringData:
+  FTPS_USERNAME: files
+  FTPS_PASSWORD: giveme
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ftps
+  labels:
+    app: ftps
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: ftps
+  template:
+    metadata:
+      labels:
+        app: ftps
+    spec:
+      containers:
+      - name: ftps-host
+        image: ftps
+        imagePullPolicy: Never
+        envFrom:
+        - secretRef:
+            name: ftps-secret
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: ftps-svc
+  annotations:
+    metallb.universe.tf/allow-shared-ip: IPHERE
+  labels:
+    app: ftps
+spec:
+  type: LoadBalancer
+  selector:
+    app: ftps
+  ports:
+  - name: cmd-ctrl-port
+    port: 20
+  - name: ftps-port
+    port: 21
+  - name: pasv-port
+    port: 10100
