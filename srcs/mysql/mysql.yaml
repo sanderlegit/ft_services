@@ -52,6 +52,10 @@ spec:
       labels:
         app: mysql
     spec:
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-claim
       containers:
       - name: mysql-host
         image: mysql
@@ -62,10 +66,6 @@ spec:
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
-      volumes:
-      - name: mysql-persistent-storage
-        persistentVolumeClaim:
-          claimName: mysql-claim
 
 ---
 

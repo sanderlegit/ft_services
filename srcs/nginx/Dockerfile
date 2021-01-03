@@ -9,7 +9,8 @@ RUN apk update --no-cache && \
 	curl \
 	gettext \
 	openssh \
-	supervisor
+	supervisor \
+	vim
 
 #create user www and group 'www', create directory for html files 
 RUN adduser -D -g 'www' www && \

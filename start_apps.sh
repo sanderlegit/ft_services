@@ -58,7 +58,7 @@ start_app_ip () {
 }
 
 # ---------- Debug ---------- #
-DEBUG=$""
+DEBUG=""
 if [ $# -eq 1 ]
 then
     DEBUG="--debug"
@@ -70,23 +70,6 @@ fi
 #ln -s ~/goinfre/.minikube ~/.minikube
 
 :> errlog.txt
-
-# ---------- Cluster start ---------- #
-minikube start --driver=docker \
-				--cpus=6 --memory=3900 --disk-size=10g \
-				--addons=metallb \
-				--addons=default-storageclass \
-				--addons=dashboard \
-				--addons=storage-provisioner \
-				--addons=metrics-server \
-				--extra-config=kubelet.authentication-token-webhook=true
-
-# ---------- Install ---------- #
-# metallb
-#bash $PROJECT_DIR/srcs/metallb/set-kube-proxy-config.sh
-#kubectl apply -f $PROJECT_DIR/srcs/metallb/namespace.yaml
-#kubectl apply -f $PROJECT_DIR/srcs/metallb/metallb.yaml
-#kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
 
 # ---------- Build and deploy ---------- #
 eval $(minikube docker-env)
