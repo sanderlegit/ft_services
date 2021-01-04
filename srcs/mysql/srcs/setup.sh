@@ -9,5 +9,6 @@ echo "GRANT ALL ON *.* TO '$DB_USER'@'127.0.0.1' IDENTIFIED BY '$DB_PASSWORD' WI
 echo "GRANT ALL ON *.* TO '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASSWORD' WITH GRANT OPTION;" >> /tmp/sql
 echo "GRANT ALL ON *.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD' WITH GRANT OPTION;" >> /tmp/sql
 echo "FLUSH PRIVILEGES;" >> /tmp/sql
+rm /tmp/create_tables.sql
 #startup db with config
 /usr/bin/mysqld --console --init_file=/tmp/sql
