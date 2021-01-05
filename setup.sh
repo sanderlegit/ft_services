@@ -100,7 +100,7 @@ start_app "mysql" "/srcs/mysql" "/srcs/mysql/mysql.yaml" $DEBUG
 start_app_ip "wordpress" "/srcs/wordpress" "/srcs/wordpress/wordpress.yaml" $DEBUG
 start_app_ip "phpmyadmin" "/srcs/phpmyadmin" "/srcs/phpmyadmin/phpmyadmin.yaml" $DEBUG
 start_app "influxdb" "/srcs/influxdb" "/srcs/influxdb/influxdb.yaml" "$DEBUG"
-#start_app "telegraf" "/srcs/telegraf" "/srcs/telegraf/telegraf.yaml" "$DEBUG"
+start_app "telegraf" "/srcs/telegraf" "/srcs/telegraf/telegraf.yaml" "$DEBUG"
 #start_app "grafana" "/srcs/grafana" "/srcs/grafana/grafana.yaml" "$DEBUG"
 start_app_ip "nginx" "/srcs/nginx" "/srcs/nginx/nginx.yaml" $DEBUG
 

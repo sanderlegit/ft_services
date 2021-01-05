@@ -10,4 +10,4 @@ RUN apk update --no-cache && \
 EXPOSE 8086
 
 #run daemon
-CMD influxd
+ENTRYPOINT influxd
