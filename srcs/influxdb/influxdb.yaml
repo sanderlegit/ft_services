@@ -1,0 +1,98 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: influxdb-data
+  labels:
+    app: influxdb
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/influxdb-data"
+    type: DirectoryOrCreate
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: influxdb-claim
+  labels:
+    app: influxdb
+spec:
+  selector:
+    matchLabels:
+      app: influxdb
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: influxdb
+  labels:
+    app: influxdb
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: influxdb
+  template:
+    metadata:
+      labels:
+        app: influxdb
+    spec:
+      volumes:
+      - name: influxdb-persistent-storage
+        persistentVolumeClaim:
+          claimName: influxdb-claim
+      containers:
+      - name: influxdb-host
+        image: influxdb
+        imagePullPolicy: Never
+        envFrom:
+        - secretRef:
+            name: influxdb-secret
+        volumeMounts:
+        - name: influxdb-persistent-storage
+          mountPath: /var/lib/influxdb
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: influxdb-svc
+  labels:
+    app: influxdb
+spec:
+  type: ClusterIP
+  selector:
+    app: influxdb
+  ports:
+  - name: influxdb-port
+    port: 8086
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    app: influxdb
+  name: influxdb-secret
+type: Opaque
+stringData:
+  INFLUX_URL: http://influxdb-svc:8086
+  INFLUX_USER: influxdb
+  INFLUX_PASSWORD: pass
