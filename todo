@@ -1,6 +1,3 @@
-ftps
-	figure out how to connect with ssl certs
-	test
 setup influxdb
 setup telegraf
 test my balls off
