@@ -78,13 +78,13 @@ PROJECT_DIR="$(dirname $(realpath $0))"
 
 cat $PROJECT_DIR/srcs/metallb/config.yaml | sed -e "s=IPHERE=$(minikube ip)-$(minikube ip)=" | kubectl apply -f -
 kubectl apply -f $PROJECT_DIR/srcs/read_service_permissions.yaml
-start_app_ip "ftps" "/srcs/ftps" "/srcs/ftps/ftps.yaml" $DEBUG
+start_app "influxdb" "/srcs/influxdb" "/srcs/influxdb/influxdb.yaml" "$DEBUG"
 start_app "mysql" "/srcs/mysql" "/srcs/mysql/mysql.yaml" $DEBUG
+start_app_ip "ftps" "/srcs/ftps" "/srcs/ftps/ftps.yaml" $DEBUG
 start_app_ip "wordpress" "/srcs/wordpress" "/srcs/wordpress/wordpress.yaml" $DEBUG
 start_app_ip "phpmyadmin" "/srcs/phpmyadmin" "/srcs/phpmyadmin/phpmyadmin.yaml" $DEBUG
-start_app "influxdb" "/srcs/influxdb" "/srcs/influxdb/influxdb.yaml" "$DEBUG"
 start_app "telegraf" "/srcs/telegraf" "/srcs/telegraf/telegraf.yaml" "$DEBUG"
-#start_app "grafana" "/srcs/grafana" "/srcs/grafana/grafana.yaml" "$DEBUG"
+start_app_ip "grafana" "/srcs/grafana" "/srcs/grafana/grafana.yaml" "$DEBUG"
 start_app_ip "nginx" "/srcs/nginx" "/srcs/nginx/nginx.yaml" $DEBUG
 
 echo ""
@@ -93,4 +93,4 @@ print_ip_page "nginx-svc" '/wordpress'
 print_ip_page "nginx-svc" '/phpmyadmin'
 print_ip "wordpress-svc"
 print_ip "phpmyadmin-svc"
-#print_ip "grafana-svc"
+print_ip "grafana-svc"

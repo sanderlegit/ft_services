@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: grafana
+        ports:
+        - name: grafana-port
+          containerPort: 3000
+        imagePullPolicy: Never
+        envFrom:
+        - secretRef:
+            name: influxdb-secret
+        - secretRef:
+            name: grafana-secret
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/allow-shared-ip: IPHERE
+  name: grafana-svc
+  labels:
+    app: grafana
+spec:
+  ports:
+  - name: grafana-port
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: grafana
+  type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: grafana-secret
+type: Opaque
+stringData:
+  GF_SECURITY_ADMIN_USER: grafana
+  GF_SECURITY_ADMIN_PASSWORD: pass
+  HOSTNAME: http://grafana-svc:3000
+  GF_SERVER_PROTOCOL: http
+  GF_SERVER_DOMAIN: grafana-svc
+  GF_SERVER_HTTP_PORT: "3000"
+  GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/overview.json
+  GF_USERS_LOGIN_HINT: "a man has many names"
+  GF_USERS_PASSWORD_HINT: "1234, admin, password, admin1..."

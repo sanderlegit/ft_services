@@ -1,3 +1,5 @@
-setup influxdb
-setup telegraf
+influxdb
+telegraf
+	potential cannot make db errors
+setup grafana
 test my balls off
