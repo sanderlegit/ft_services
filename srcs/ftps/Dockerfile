@@ -23,7 +23,7 @@ COPY ./srcs/ftps.key /etc/ssl/certs/ftps.key
 COPY ./srcs/*.sh /tmp/
 RUN chmod +x /tmp/*
 
-#20 ?, 21 ftps, 10090-10100 pasv
-EXPOSE 20 21 10090-10100
+#20 ?, 21 ftps, 30000 pasv
+EXPOSE 20 21 30000
 
 CMD ["sh" , "-c", "sh /tmp/setup.sh"]

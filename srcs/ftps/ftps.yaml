@@ -4,8 +4,8 @@ metadata:
   name: ftps-secret
 type: Opaque
 stringData:
-  FTPS_USERNAME: files
-  FTPS_PASSWORD: giveme
+  FTPS_USERNAME: user
+  FTPS_PASSWORD: pass
 
 ---
 
@@ -54,4 +54,4 @@ spec:
   - name: ftps-port
     port: 21
   - name: pasv-port
-    port: 10100
+    port: 30000
