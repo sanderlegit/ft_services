@@ -65,7 +65,7 @@ spec:
             name: influxdb-secret
         volumeMounts:
         - name: influxdb-persistent-storage
-          mountPath: /var/lib/influxdb
+          mountPath: /root/.influxdb
 
 ---
 
